@@ -1,11 +1,21 @@
 .left {
   float: left;
-  width: 75%;
+  width: 60%;
+  
   margin: 0;
   padding: 1em;
 }
 
 .right {
+  float: right;
+  width: 35%;
+  
   padding: 1em;
   overflow: hidden;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: block;
 }

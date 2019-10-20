@@ -1,3 +1,7 @@
+<head>
+  <title>Dashboard</title>
+</head>
+
 <script
   type="text/javascript"
   src="https://pubnub.github.io/eon/v/eon/1.0.0/eon.js"
@@ -7,17 +11,30 @@
   rel="stylesheet"
   href="https://pubnub.github.io/eon/v/eon/1.0.0/eon.css"
 />
+<script src="https://d3js.org/d3-color.v1.min.js"></script>
 <link rel="stylesheet" href="style.css">
 
 
-<h3 align="center">Temperature Readings</h3>
-<div id="chartTemp"></div>
 
-<h3 align="center">Humidity Readings</h3>
-<div>
+
+<body>
+
+  <div class="clearfix">
+    <h3 align="center">Temperature Readings</h3>
+    <div>
+      <div id="chartTemp" class="left"></div>
+    </div>
+  </div>
+
+  <div class="clearfix" >
+    <h3 align="center">Humidity Readings</h3>
     <div id="chartHum" class="left"></div>
     <div id="chartHumidityCurrent" class="right"></div>
-</div>
+  </div>
+
+</body>
+
+
 
 
 <script src="plots.js"></script>
