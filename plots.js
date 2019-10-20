@@ -3,6 +3,13 @@ var __eon_pubnub = new PubNub({
   });
 
 
+// fancy colors for temperature
+// https://stackoverflow.com/questions/55010999/color-range-for-multiple-lines
+var tMin = 20, tMax = 25
+const scale = d3.scale.linear()
+  .domain([tMin, (tMax + tMin) / 2, tMax])
+  .range(["#00FF00", "#FFFF00", "#FF0000"]);
+
 var temperature_chart = eon.chart({
     pubnub: __eon_pubnub,
     history: true,
@@ -14,7 +21,18 @@ var temperature_chart = eon.chart({
       bindto: "#chartTemp",
       data: {
         x: "x",
-        labels: false
+        labels: false,
+        colors: {
+          Temperature: '#FFFF00',
+        },
+        // https://c3js.org/samples/data_color.html
+        color: function (color, d) {
+          if (d.id && d.id === 'Temperature') {
+            return scale(d.value)
+          }
+          else
+            return color;
+        },
       },
 
       axis: {
@@ -42,16 +60,13 @@ var humidity_chart = eon.chart({
     data: {
       type: "spline",
       x: "x",
-      labels: false
+      labels: false,
+      colors: {
+        Humidity: '#0000AA',
+      },
     },
     transition: {
       duration: 250
-    },
-    color: {
-      pattern: ["#FF0000", "#F6C600", "#60B044"],
-      threshold: {
-        values: [50, 52, 55]
-      }
     },
     tooltip: {
       show: true
@@ -77,7 +92,7 @@ var humidity_chart = eon.chart({
 // https://www.pubnub.com/developers/eon/chart/gauge/
 // https://github.com/GerHobbelt/eon-chart/blob/master/node_modules/c3/htdocs/samples/chart_gauge.html#L14
 
-var humidity_thresholds = [30, 45, 60]    // terribly, low, normal, high
+var humidity_thresholds = [30, 45, 60]    // terrible, low, normal, high
 var gauge_chart = eon.chart({
   pubnub: __eon_pubnub,
   history: true,
