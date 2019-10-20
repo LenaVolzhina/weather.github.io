@@ -95,7 +95,7 @@ var gauge_chart = eon.chart({
           let comment
           let [t1, t2, t3] = humidity_thresholds
 
-          if (value < t1) comment = "terribly"
+          if (value < t1) comment = "terrible"
           else if (value < t2) comment = "low"
           else if (value < t3) comment = "normal"
           else comment = "high"
