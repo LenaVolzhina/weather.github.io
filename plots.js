@@ -31,7 +31,6 @@ var temperature_chart = eon.chart({
     }
   });
 
-
 var humidity_chart = eon.chart({
   pubnub: __eon_pubnub,
   history: true,
@@ -66,6 +65,50 @@ var humidity_chart = eon.chart({
         tick: {
           format: "%H:%M:%S"
         }
+      }
+    }
+  },
+  transform: function(data) {
+    return { eon: { Humidity: data.humidity } };
+  }
+});
+
+
+// https://www.pubnub.com/developers/eon/chart/gauge/
+// https://github.com/GerHobbelt/eon-chart/blob/master/node_modules/c3/htdocs/samples/chart_gauge.html#L14
+
+var humidity_thresholds = [30, 45, 60]    // terribly, low, normal, high
+var gauge_chart = eon.chart({
+  pubnub: __eon_pubnub,
+  history: true,
+  channels: ['humeon'],
+  generate: {
+    bindto: '#chartHumidityCurrent',
+    data: {
+      type: 'gauge',
+    },
+    gauge: {
+      min: 0,
+      max: 100,
+      label: {
+        format: function(value, ratio) {
+          let comment
+          let [t1, t2, t3] = humidity_thresholds
+
+          if (value < t1) comment = "terribly"
+          else if (value < t2) comment = "low"
+          else if (value < t3) comment = "normal"
+          else comment = "high"
+
+          return String(Math.round(value)) + "%: " + comment
+        },
+        // show: false // to turn off the min/max labels.
+      }
+    },
+    color: {
+      pattern: ['#FF0000', '#FFCC00', '#60B044', '#EEEEEE'],
+      threshold: {
+        values: humidity_thresholds
       }
     }
   },
